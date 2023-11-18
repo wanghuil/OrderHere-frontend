@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        VERCEL_TOKEN = credentials('P6aIcDSQPcKeLR4UO7Q29Wqs')
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -20,11 +24,8 @@ pipeline {
         stage('Deploy to Vercel') {
             steps {
                 script {
-                    // Install Vercel CLI
-                    sh 'npm install -g vercel'
-
                     // Authenticate with Vercel using your token
-                    sh 'vercel login --token P6aIcDSQPcKeLR4UO7Q29Wqs'
+                    sh 'vercel login --token $VERCEL_TOKEN'
 
                     // Deploy to Vercel
                     sh 'vercel --prod'
