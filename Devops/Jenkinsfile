@@ -27,7 +27,7 @@ pipeline {
                     // Set Vercel token as an environment variable
                     withCredentials([string(credentialsId: 'P6aIcDSQPcKeLR4UO7Q29Wqs', variable: 'VERCEL_TOKEN')]) {
                         // Deploy to Vercel
-                        sh 'vercel --prod'
+                        sh 'npx vercel --prod --token $VERCEL_TOKEN'
                     }
                 }
             }
