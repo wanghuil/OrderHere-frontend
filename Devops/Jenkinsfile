@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        VERCEL_TOKEN = credentials('P6aIcDSQPcKeLR4UO7Q29Wqs')
-    }
-
     stages {
         stage('Build') {
             steps {
@@ -22,13 +18,14 @@ pipeline {
         }
 
         stage('Deploy to Vercel') {
+            environment {
+                VERCEL_TOKEN = credentials('P6aIcDSQPcKeLR4UO7Q29Wqs')
+            }
+
             steps {
                 script {
-                    // Set Vercel token as an environment variable
-                    withCredentials([string(credentialsId: 'P6aIcDSQPcKeLR4UO7Q29Wqs', variable: 'VERCEL_TOKEN')]) {
-                        // Deploy to Vercel
-                        sh 'npx vercel --prod --token $VERCEL_TOKEN'
-                    }
+                    // Deploy to Vercel
+                    sh "npx vercel --prod --token ${VERCEL_TOKEN}"
                 }
             }
         }
