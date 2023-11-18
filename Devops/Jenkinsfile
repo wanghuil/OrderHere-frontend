@@ -1,11 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        NODE_VERSION = '18'
-        NVM_DIR = sh(script: '[ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm"', returnStdout: true).trim()
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -13,29 +8,6 @@ pipeline {
 
                 // Optional: Print the contents of the directory for debugging
                 sh 'ls -la'
-            }
-        }
-
-        stage('Install Node.js and npm') {
-            steps {
-                script {
-                    // Check if NVM is installed
-                    def nvmInstalled = sh(script: 'command -v nvm', returnStatus: true)
-                    if (nvmInstalled != 0) {
-                        // Install NVM
-                        sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                        sh 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && echo ${HOME}/.nvm || echo ${XDG_CONFIG_HOME}/nvm)"'
-                        sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
-                    }
-
-                    // Check if Node.js is installed
-                    def nodeInstalled = sh(script: 'command -v node', returnStatus: true)
-                    if (nodeInstalled != 0) {
-                        // Install Node.js and npm
-                        sh "nvm install $NODE_VERSION"
-                        sh "nvm use $NODE_VERSION"
-                    }
-                }
             }
         }
 
