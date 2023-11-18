@@ -1,7 +1,0 @@
-{
-    "version": 2,
-    "builds": [{ "src": ".next", "use": "@vercel/static-build", "config": { "command": "npm run build" } }],
-    "routes": [{ "src": "/(.*)", "dest": ".next/$1" }]
-  }
-  
-  
