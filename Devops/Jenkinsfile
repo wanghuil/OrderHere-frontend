@@ -18,14 +18,13 @@ pipeline {
         }
 
         stage('Deploy to Vercel') {
-            environment {
-                VERCEL_TOKEN = credentials('P6aIcDSQPcKeLR4UO7Q29Wqs')
-            }
-
             steps {
                 script {
-                    // Deploy to Vercel
-                    sh "npx vercel --prod --token ${VERCEL_TOKEN}"
+                    // Authenticate with Vercel using your token
+                    withCredentials([string(credentialsId: 'P6aIcDSQPcKeLR4UO7Q29Wqs', variable: 'VERCEL_TOKEN')]) {
+                        // Deploy to Vercel
+                        sh 'vercel --prod --token $VERCEL_TOKEN'
+                    }
                 }
             }
         }
