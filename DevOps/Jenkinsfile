@@ -1,19 +1,29 @@
 pipeline {
     agent any
-	environment {
-	}
-    stages {  
-        stage('Build') {
+
+    stages {
+        stage('Checkout') {
             steps {
-                // Build your application
-                sh 'mvn clean install'
+                deleteDir() // Clean workspace
+                checkout scm
             }
         }
-        
+
+        stage('Build') {
+            steps {
+                dir('DevOps') {
+                    // Build your application
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
         stage('Test') {
             steps {
-                // Run your tests
-                sh 'mvn test'
+                dir('DevOps') {
+                    // Run your tests
+                    sh 'mvn test'
+                }
             }
         }
     }
