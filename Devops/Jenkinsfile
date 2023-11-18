@@ -3,14 +3,6 @@ pipeline {
 	environment {
 	}
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your source code from version control
-                deleteDir() // Clean workspace
-                checkout scm
-            }
-        }
-        
         stage('Build') {
             steps {
                 // Build your application
