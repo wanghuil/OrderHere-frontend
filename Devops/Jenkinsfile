@@ -24,11 +24,11 @@ pipeline {
         stage('Deploy to Vercel') {
             steps {
                 script {
-                    // Authenticate with Vercel using your token
-                    sh 'vercel login --token $VERCEL_TOKEN'
-
-                    // Deploy to Vercel
-                    sh 'vercel --prod'
+                    // Set Vercel token as an environment variable
+                    withCredentials([string(credentialsId: 'P6aIcDSQPcKeLR4UO7Q29Wqs', variable: 'VERCEL_TOKEN')]) {
+                        // Deploy to Vercel
+                        sh 'vercel --prod'
+                    }
                 }
             }
         }
