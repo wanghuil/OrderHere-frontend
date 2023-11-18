@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    
+    environment {
+        VERCEL_TOKEN = credentials('vercel_token')
+    }
+    
     stages {
         stage('Build') {
             steps {
@@ -9,7 +13,7 @@ pipeline {
                 sh 'npm run build'
             }
         }
-
+        
         stage('Test') {
             steps {
                 // Run your tests
@@ -17,14 +21,11 @@ pipeline {
             }
         }
 
-        stage('Deploy to Vercel') {
+        stage('Deploy') {
             steps {
                 script {
-                    // Authenticate with Vercel using your token
-                    withCredentials([string(credentialsId: 'P6aIcDSQPcKeLR4UO7Q29Wqs', variable: 'VERCEL_TOKEN')]) {
-                        // Deploy to Vercel
-                        sh 'vercel --prod --token $VERCEL_TOKEN'
-                    }
+                    // Deploy to Vercel
+                    sh "vercel --token $VERCEL_TOKEN --prod"
                 }
             }
         }
