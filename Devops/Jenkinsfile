@@ -3,13 +3,16 @@ pipeline {
     
     environment {
         NODE_VERSION = '18'
-        NVM_DIR = "$([ -z \"${XDG_CONFIG_HOME-}\" ] && printf %s \"${HOME}/.nvm\" || printf %s \"${XDG_CONFIG_HOME}/nvm\")"
+        NVM_DIR = sh(script: 'echo $([ -z "${XDG_CONFIG_HOME-}" ] && echo ${HOME}/.nvm || echo ${XDG_CONFIG_HOME}/nvm)', returnStdout: true).trim()
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/DevOps']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/wanghuil/OrderHere-frontend.git']]])
+
+                // Optional: Print the contents of the directory for debugging
+                sh 'ls -la'
             }
         }
 
@@ -21,7 +24,7 @@ pipeline {
                     if (nvmInstalled != 0) {
                         // Install NVM
                         sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                        sh 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"'
+                        sh 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && echo ${HOME}/.nvm || echo ${XDG_CONFIG_HOME}/nvm)"'
                         sh '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
                     }
 
