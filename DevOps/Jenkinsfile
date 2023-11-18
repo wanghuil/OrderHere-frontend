@@ -2,14 +2,7 @@ pipeline {
     agent any
 	environment {
 	}
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your source code from version control
-                checkout scm
-            }
-        }
-        
+    stages {  
         stage('Build') {
             steps {
                 // Build your application
