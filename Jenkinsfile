@@ -3,6 +3,13 @@ pipeline {
 	environment {
 	}
     stages {
+        stage('Checkout') {
+            steps {
+                deleteDir() // Clean workspace
+                checkout scm
+            }
+        }
+        
         stage('Build') {
             steps {
                 // Build your application
