@@ -1,7 +1,6 @@
 pipeline {
     agent any
 	environment {
-	      VERCEL_TOKEN = credentials('yUum3VoqZQc2489GYwjDl1oD')
 	}
     stages {
         stage('Checkout') {
