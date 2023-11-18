@@ -1,7 +1,7 @@
 pipeline {
     agent any
-	environment {
-	}
+	environment any
+    
     stages {
         stage('Checkout') {
             steps {
@@ -11,7 +11,7 @@ pipeline {
                 sh 'ls -la'
             }
         }
-        
+
         stage('Build') {
             steps {
                 // Build your application
