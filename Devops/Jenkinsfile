@@ -5,8 +5,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                deleteDir() // Clean workspace
-                checkout scm
+                checkout([$class: 'GitSCM', branches: [[name: '*/DevOps']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/wanghuil/OrderHere-frontend.git']]])
+
+                // Optional: Print the contents of the directory for debugging
+                sh 'ls -la'
             }
         }
         
